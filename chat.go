@@ -7,15 +7,15 @@ import(
   "fmt"
   "os"
   "encoding/json"
-)
-
-const(
-  host_address = "localhost:8000"
+  "flag"
 )
 
 var(
+  host_address = flag.String("host","localhost:8000","providing the context")
   pwd, _        = os.Getwd()
   home_template = template.Must(template.ParseFiles(pwd + "/home.html"))
+  css_template   = template.Must(template.ParseFiles(pwd + "/chat.css"))
+  // js_template   = template.Must(template.ParseFiles(pwd + "/chat.js"))
   Message       = websocket.Message
   ActiveClients = make(map[Client]int)     // map containing clients
 )
@@ -27,6 +27,8 @@ type Client struct {
 
 func init(){
   http.HandleFunc("/",home_handler)
+  http.HandleFunc("/chat.css",css_handler)
+  // http.HandleFunc("/chat.js",js_handler)
   http.Handle("/websocket", websocket.Handler(SocketServer))
 }
 
@@ -51,11 +53,14 @@ func SocketServer(ws *websocket.Conn) {
       fmt.Println("Number of clients still connected ...", len(ActiveClients))
       return
     }
+    broadcastMessage(clientMessage)
+  }
+}
 
-    for client, _ := range ActiveClients {
-      if err := Message.Send(client.websocket, clientMessage); err != nil {
-        fmt.Println("Could not send message to ", client.clientIP, err.Error())
-      }
+func broadcastMessage(clientMessage string){
+  for client, _ := range ActiveClients {
+    if err := Message.Send(client.websocket, clientMessage); err != nil {
+      fmt.Println("Could not send message to ", client.clientIP, err.Error())
     }
   }
 }
@@ -65,7 +70,7 @@ func home_handler(w http.ResponseWriter, r *http.Request){
   if name == "" {
     name = "random person"
   }
-  parsedUrl := map[string]string{"context": host_address, "name": name }
+  parsedUrl := map[string]string{"context": *host_address, "name": name }
   json, _ := json.Marshal(parsedUrl)
   err := home_template.Execute(w, string(json))
   if err != nil {
@@ -73,8 +78,24 @@ func home_handler(w http.ResponseWriter, r *http.Request){
   }
 }
 
+func css_handler(w http.ResponseWriter, r *http.Request){
+  w.Header().Set("Content-Type", "text/css")
+  err := css_template.Execute(w, *host_address)
+  if err != nil {
+    http.Error(w, err.Error(), http.StatusInternalServerError)
+  }
+}
+// func js_handler(w http.ResponseWriter, r *http.Request){
+//   w.Header().Set("Content-Type", "application/javascript")
+//   err := js_template.Execute(w, *host_address)
+//   if err != nil {
+//     http.Error(w, err.Error(), http.StatusInternalServerError)
+//   }
+// }
+
 func main(){
-  err := http.ListenAndServe(host_address,nil);
+  flag.Parse()
+  err := http.ListenAndServe(*host_address,nil);
   if err != nil {
     panic(err)
   }

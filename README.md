@@ -1,2 +1,2 @@
-# Go-Chat
+# go-chat
 Chat application in golang
