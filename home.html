@@ -46,7 +46,6 @@
     }
     websocket.onclose = function(res) {
       console.log("Disconnected - status " + this.readyState);
-      websocket.send(jsonObj.name + ' left the chat.');
     }
 
     var getRandomIntInclusive = function (min, max) {
@@ -62,7 +61,17 @@
         <div class="panel-heading">
           <span class="glyphicon glyphicon-comment"></span> Chat Box
           <div class="btn-group pull-right">
-            <button id="clear_chat" class="btn btn-default btn-xs">Clear</button>
+            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">Options
+              <span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+            <ul class="dropdown-menu slidedown">
+              <li id="clear_chat"><a href="#"><span class="glyphicon glyphicon glyphicon-unchecked">
+              </span>Clear Chat</a></li>
+              <li id="leave_chat"><a href="#"><span class="glyphicon glyphicon glyphicon-remove-sign">
+              </span>Leave Chat</a></li>
+              <li id="join_chat"><a href=""><span class="glyphicon glyphicon-ok-sign">
+              </span>Join Chat</a></li>
+            </ul>
           </div>
         </div>
         <div id ="chat_box" class="panel-body msg_container_base"></div>
@@ -94,6 +103,11 @@
       });
       $('#clear_chat').on('click',function(){
         $('#chat_box').html('');
+      });
+      $('#leave_chat').on('click',function(){
+        $('#chat_box').append('<p style="text-align:center;font-weight:bold">you left the chat.</p><br/>');
+        websocket.send(jsonObj.name + ' left the chat.');
+        websocket.close();
       });
 
       $('#chat_prompt').keypress(function (e) {
