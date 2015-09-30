@@ -14,8 +14,6 @@ var(
   host_address = flag.String("host","localhost:8000","providing the context")
   pwd, _        = os.Getwd()
   home_template = template.Must(template.ParseFiles(pwd + "/home.html"))
-  css_template   = template.Must(template.ParseFiles(pwd + "/chat.css"))
-  // js_template   = template.Must(template.ParseFiles(pwd + "/chat.js"))
   Message       = websocket.Message
   ActiveClients = make(map[Client]int)     // map containing clients
 )
@@ -27,8 +25,7 @@ type Client struct {
 
 func init(){
   http.HandleFunc("/",home_handler)
-  http.HandleFunc("/chat.css",css_handler)
-  // http.HandleFunc("/chat.js",js_handler)
+  http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("."))))
   http.Handle("/websocket", websocket.Handler(SocketServer))
 }
 
@@ -78,24 +75,9 @@ func home_handler(w http.ResponseWriter, r *http.Request){
   }
 }
 
-func css_handler(w http.ResponseWriter, r *http.Request){
-  w.Header().Set("Content-Type", "text/css")
-  err := css_template.Execute(w, *host_address)
-  if err != nil {
-    http.Error(w, err.Error(), http.StatusInternalServerError)
-  }
-}
-// func js_handler(w http.ResponseWriter, r *http.Request){
-//   w.Header().Set("Content-Type", "application/javascript")
-//   err := js_template.Execute(w, *host_address)
-//   if err != nil {
-//     http.Error(w, err.Error(), http.StatusInternalServerError)
-//   }
-// }
-
 func main(){
   flag.Parse()
-  err := http.ListenAndServe(*host_address,nil);
+  err := http.ListenAndServe(*host_address,nil)
   if err != nil {
     panic(err)
   }
