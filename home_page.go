@@ -1,3 +1,13 @@
+package main
+
+import(
+  "html/template"
+  "net/http"
+  "fmt"
+  "encoding/json"
+)
+
+const home_page = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,3 +59,21 @@
     </audio>
 </body>
 </html>
+`
+
+func home_handler(w http.ResponseWriter, r *http.Request){
+  name := r.URL.Path[1:]
+  if name == "" {
+    name = "random person"
+  }
+  parsedUrl := map[string]string{"context": *host_address, "name": name }
+  json, _ := json.Marshal(parsedUrl)
+  home_template, error := template.New("webpage").Parse(home_page)
+  if error != nil {
+    fmt.Println("Couldn't parse home page!")
+  }
+  err := home_template.Execute(w, string(json))
+  if err != nil {
+    http.Error(w, err.Error(), http.StatusInternalServerError)
+  }
+}
