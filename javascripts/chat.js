@@ -27,6 +27,8 @@ $(document).ready(function(){
         $('#{id}'.interpolate({id: div_id})).append('<a href="{link}" target="_blank">{link}</a>'.interpolate({link: dataArray[2]}));
       }else{
         $('#{id}'.interpolate({id: div_id})).append('<p>{content}</p>'.interpolate({content: dataArray[2]}));
+        emojify.setConfig({img_dir : '/assets/images/emojis'});
+        emojify.run();
       }
       $('#chat_box').append('</div><hr/>');
     }else{
