@@ -1,6 +1,6 @@
 # go-chat
 
-**go-chat** is a chat-application in go with usage of websockets.
+**go-chat** is a chat-application in go using websockets.
 
 ## Dependencies
 
@@ -12,7 +12,7 @@ go get "golang.org/x/net/websocket"
 ```
 ## Usage
 
-Build the project and execute. By default, host is **localhost:8000** . Same can be changed by providing host at run-time.
+Build the go project and execute. By default, host is **localhost:8000** . Same can be changed by providing host at run-time.
 
 ```
   go build  &&
