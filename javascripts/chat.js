@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  var name_color_map = {};
   var jsonObj = JSON.parse($('#data').text());
   socket_addr = 'ws://'+ jsonObj.context +'/websocket';
   var websocket = new WebSocket(socket_addr);
@@ -12,11 +13,11 @@ $(document).ready(function(){
     var regEx = /(.*)~~(.*)$/;
     var dataArray = regEx.exec(res.data.replace(/\n/g,'<br/>'));
     var div_id = "div" + getRandomIntInclusive(0,50000);
-    var random_color = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+    var random_color = 'rgb(' + (Math.floor(Math.random() * 150)) + ',' + (Math.floor(Math.random() * 150)) + ',' + (Math.floor(Math.random() * 150)) + ')';
     if(dataArray != null){
       if(dataArray[1] != jsonObj.name){
         $('#chat_box').append('<div id="{id}" class="messages pull-left">'.interpolate({id: div_id}));
-        $('#{id}'.interpolate({id: div_id})).append('<p style="color:{color}"><strong>{content}</strong></p>'.interpolate({color: random_color, content: dataArray[1]}));
+        $('#{id}'.interpolate({id: div_id})).append('<p style="color:{color}"><strong>{content}</strong></p>'.interpolate({color: find_suitable_color(dataArray, random_color), content: dataArray[1]}));
         $('#notify')[0].play();
       }else{
         $('#chat_box').append('<div id="{id}" class="mymessages pull-right">'.interpolate({id: div_id}));
@@ -36,6 +37,13 @@ $(document).ready(function(){
     $('#chat_box').animate({scrollTop: $('#chat_box').prop("scrollHeight")},'fast');
   }
 
+  websocket.onerror = function(res) {
+    console.log("Error occured sending..." + m.data);
+  }
+  websocket.onclose = function(res) {
+    console.log("Disconnected - status " + this.readyState);
+  }
+
   String.prototype.interpolate = function (o) {
     return this.replace(/{([^{}]*)}/g,
     function (a, b) {
@@ -43,13 +51,6 @@ $(document).ready(function(){
       return typeof r === 'string' || typeof r === 'number' ? r : a;
     });
   };
-
-  websocket.onerror = function(res) {
-    console.log("Error occured sending..." + m.data);
-  }
-  websocket.onclose = function(res) {
-    console.log("Disconnected - status " + this.readyState);
-  }
 
   var getRandomIntInclusive = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -61,6 +62,13 @@ $(document).ready(function(){
       return true;
     }
     return false;
+  }
+
+  var find_suitable_color = function(dataArray, random_color){
+    if(name_color_map[dataArray[1]] === undefined){
+      name_color_map[dataArray[1]] = random_color;
+    }
+    return name_color_map[dataArray[1]];
   }
 
   $('#chat_prompt').val('');
