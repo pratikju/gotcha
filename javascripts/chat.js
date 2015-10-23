@@ -28,8 +28,15 @@ $(document).ready(function(){
       if(checkForLink(dataArray[2])){
         $('#{id}'.interpolate({id: div_id})).append('<a href="{link}" target="_blank">{link}</a>'.interpolate({link: dataArray[2]}));
       }else if(uploadregEx.exec(dataArray[2]) != null){
-          uploadedUrl = uploadregEx.exec(dataArray[2])[1];
-          $('#{id}'.interpolate({id: div_id})).append('<a href="/assets/uploads/{link}" target="_blank" download><span class="glyphicon glyphicon-download"></span>{link}</a>'.interpolate({link: uploadedUrl}));
+          uploadContent = uploadregEx.exec(dataArray[2])
+          uploadedUrl = uploadContent[1];
+          uploadType  = uploadContent[2];
+          if(/image/.test(uploadType)){
+            $('#{id}'.interpolate({id: div_id})).append('<img src="/assets/uploads/{link}" alt="{link}">'.interpolate({link: uploadedUrl}));
+          }else {
+            $('#{id}'.interpolate({id: div_id})).append('<a href="/assets/uploads/{link}" target="_blank" download><span class="glyphicon glyphicon-download"></span>{link}</a>'.interpolate({link: uploadedUrl}));
+          }
+
       }else{
         $('#{id}'.interpolate({id: div_id})).append('<p>{content}</p>'.interpolate({content: dataArray[2]}));
         emojify.setConfig({img_dir : '/assets/images/emojis'});
@@ -94,9 +101,9 @@ $(document).ready(function(){
     },
     done: function (e, data) {
 
-      $('.progress').delay(2000).slideUp("slow",function(){
+      $('.progress').delay(1000).slideUp("slow",function(){
         $.each(data.result, function (index, file) {
-          websocket.send(jsonObj.name + '~~' + file.name + '```link')
+          websocket.send(jsonObj.name + '~~' + file.name + '```'+file.type)
         });
         $('.progress-bar').removeClass('progress-bar-success');
       });

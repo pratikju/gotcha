@@ -20,9 +20,9 @@ const home_page = `
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="/assets/javascripts/emojify.min.js"></script>
   <script src="/assets/javascripts/chat.js"></script>
-  <script src="/assets/javascripts/jquery.ui.widget.js"></script>
-  <script src="/assets/javascripts/jquery.iframe-transport.js"></script>
-  <script src="/assets/javascripts/jquery.fileupload.js"></script>
+  <script src="/assets/javascripts/jquery.ui.widget.min.js"></script>
+  <script src="/assets/javascripts/jquery.iframe-transport.min.js"></script>
+  <script src="/assets/javascripts/jquery.fileupload.min.js"></script>
 </head>
 <body style="background-color: #FAFAFF;">
     <h1> Just Go-Chat</h1>
@@ -48,17 +48,21 @@ const home_page = `
         <div id ="chat_box" class="panel-body msg_container_base"></div>
 
         <div class="panel-footer">
-          <div class="input-group">
-            <input id="chat_prompt" type="text" class="form-control input-sm" placeholder="Type your message here..." />
-            <span class="input-group-btn">
-              <button class="btn btn-warning btn-sm" id="send">Send</button>
-            </span>
-          </div>
-          <div class="input-group">
-              <input id="fileupload" type="file" name="files" data-url="/upload" multiple>
-          </div>
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%"/>
+          <div class="row">
+            <div class="col-lg-9">
+              <input id="chat_prompt" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+            </div>
+            <div class="col-lg-3 select-wrapper">
+              <input id="fileupload" type="file" title="add files" name="files" data-url="/upload" multiple accept="*"/>
+            </div>
+
+            <div class="col-lg-3">
+                <button class="btn btn-warning btn-sm" id="send" style="display: none;">Send</button>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%"/>
+            </div>
           </div>
         </div>
       </div>

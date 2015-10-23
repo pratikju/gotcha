@@ -1,3 +1,19 @@
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+.select-wrapper {
+  background: url(http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Upload-icon.png) no-repeat;
+  background-size: cover;
+  display: block;
+  position: relative;
+  width: 33px;
+  height: 26px;
+}
+#fileupload {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
 hr {
   border: 0;
   color: #e5e5e5;

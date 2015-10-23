@@ -8,6 +8,7 @@ import(
 
 type File struct {
     Name string `json:"name"`
+    Type string `json:"type"`
 }
 
 type Files []File
@@ -19,6 +20,7 @@ func upload_handler(w http.ResponseWriter, r *http.Request) {
   if err != nil {
     panic(err)
   }
+
   defer file.Close()
   f, err := os.OpenFile("./uploads/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
   if err != nil {
@@ -28,7 +30,7 @@ func upload_handler(w http.ResponseWriter, r *http.Request) {
   io.Copy(f, file)
 
   files := Files{
-        File{Name: handler.Filename},
+        File{Name: handler.Filename, Type: handler.Header["Content-Type"][0]},
   }
 
   w.Header().Set("Content-Type", "application/json; charset=UTF-8")
