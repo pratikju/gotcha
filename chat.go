@@ -20,6 +20,7 @@ type Client struct {
 
 func init(){
   http.HandleFunc("/",home_handler)
+  http.HandleFunc("/upload", upload_handler)
   http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("."))))
   http.Handle("/websocket", websocket.Handler(SocketServer))
 }

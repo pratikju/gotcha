@@ -20,6 +20,9 @@ const home_page = `
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="/assets/javascripts/emojify.min.js"></script>
   <script src="/assets/javascripts/chat.js"></script>
+  <script src="/assets/javascripts/jquery.ui.widget.js"></script>
+  <script src="/assets/javascripts/jquery.iframe-transport.js"></script>
+  <script src="/assets/javascripts/jquery.fileupload.js"></script>
 </head>
 <body style="background-color: #FAFAFF;">
     <h1> Just Go-Chat</h1>
@@ -33,9 +36,9 @@ const home_page = `
               <span class="glyphicon glyphicon-chevron-down"></span>
             </button>
             <ul class="dropdown-menu slidedown">
-              <li id="clear_chat"><a href="#"><span class="glyphicon glyphicon glyphicon-unchecked">
+              <li id="clear_chat"><a href="#"><span class="glyphicon glyphicon-unchecked">
               </span>Clear Chat</a></li>
-              <li id="leave_chat"><a href="#"><span class="glyphicon glyphicon glyphicon-remove-sign">
+              <li id="leave_chat"><a href="#"><span class="glyphicon glyphicon-remove-sign">
               </span>Leave Chat</a></li>
               <li id="join_chat"><a href=""><span class="glyphicon glyphicon-ok-sign">
               </span>Join Chat</a></li>
@@ -50,6 +53,12 @@ const home_page = `
             <span class="input-group-btn">
               <button class="btn btn-warning btn-sm" id="send">Send</button>
             </span>
+          </div>
+          <div class="input-group">
+              <input id="fileupload" type="file" name="files" data-url="/upload" multiple>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%"/>
           </div>
         </div>
       </div>

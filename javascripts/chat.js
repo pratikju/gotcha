@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  $('.progress').hide();
   var name_color_map = {};
   var jsonObj = JSON.parse($('#data').text());
   socket_addr = 'ws://'+ jsonObj.context +'/websocket';
@@ -11,6 +12,7 @@ $(document).ready(function(){
   }
   websocket.onmessage = function(res) {
     var regEx = /(.*)~~(.*)$/;
+    var uploadregEx = /(.*)```(.*)$/;
     var dataArray = regEx.exec(res.data.replace(/\n/g,'<br/>'));
     var div_id = "div" + getRandomIntInclusive(0,50000);
     var random_color = 'rgb(' + (Math.floor(Math.random() * 150)) + ',' + (Math.floor(Math.random() * 150)) + ',' + (Math.floor(Math.random() * 150)) + ')';
@@ -25,6 +27,9 @@ $(document).ready(function(){
 
       if(checkForLink(dataArray[2])){
         $('#{id}'.interpolate({id: div_id})).append('<a href="{link}" target="_blank">{link}</a>'.interpolate({link: dataArray[2]}));
+      }else if(uploadregEx.exec(dataArray[2]) != null){
+          uploadedUrl = uploadregEx.exec(dataArray[2])[1];
+          $('#{id}'.interpolate({id: div_id})).append('<a href="/assets/uploads/{link}" target="_blank" download><span class="glyphicon glyphicon-download"></span>{link}</a>'.interpolate({link: uploadedUrl}));
       }else{
         $('#{id}'.interpolate({id: div_id})).append('<p>{content}</p>'.interpolate({content: dataArray[2]}));
         emojify.setConfig({img_dir : '/assets/images/emojis'});
@@ -72,6 +77,33 @@ $(document).ready(function(){
     }
     return name_color_map[dataArray[1]];
   }
+
+  $('#fileupload').fileupload({
+    dataType: 'json',
+    progressall: function (e, data) {
+      $('.progress').show();
+      progress = Math.floor(data.loaded / data.total * 100);
+      if(progress == 100){
+        $('.progress-bar').addClass('progress-bar-success');
+      }
+      $('.progress-bar').attr('aria-valuenow', progress).css(
+        'width',
+        progress + '%'
+      ).text(progress + '%');
+
+    },
+    done: function (e, data) {
+
+      $('.progress').delay(2000).slideUp("slow",function(){
+        $.each(data.result, function (index, file) {
+          websocket.send(jsonObj.name + '~~' + file.name + '```link')
+        });
+        $('.progress-bar').removeClass('progress-bar-success');
+      });
+    }
+  });
+
+
 
   $('#chat_prompt').val('');
   $('#send').on('click',function(){
