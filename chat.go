@@ -8,7 +8,8 @@ import(
 )
 
 var(
-  host_address = flag.String("host","localhost:8000","providing the context")
+  hostname = flag.String("b", "localhost", "listen on HOST")
+	port = flag.Int("p", 8000, "use PORT for HTTP")
   Message       = websocket.Message
   ActiveClients = make(map[Client]int)  // map containing clients
 )
@@ -58,10 +59,15 @@ func broadcastMessage(clientMessage string){
   }
 }
 
-func main(){
-  flag.Parse()
-  err := http.ListenAndServe(*host_address,nil)
-  if err != nil {
+func HTTPListener(hostname string, port int) {
+	host := fmt.Sprintf("%s:%d", hostname, port)
+
+	if err := http.ListenAndServe(host, nil); err != nil {
     panic(err)
   }
+}
+
+func main(){
+  flag.Parse()
+  HTTPListener(*hostname, *port)
 }

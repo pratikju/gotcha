@@ -81,7 +81,8 @@ func home_handler(w http.ResponseWriter, r *http.Request){
   if name == "" {
     name = "random person"
   }
-  parsedUrl := map[string]string{"context": *host_address, "name": name }
+  host := fmt.Sprintf("%s:%d", *hostname, *port)
+  parsedUrl := map[string]string{"context": host, "name": name }
   json, _ := json.Marshal(parsedUrl)
   home_template, error := template.New("webpage").Parse(home_page)
   if error != nil {

@@ -1,6 +1,6 @@
 # go-chat
 
-**go-chat** is a chat-application in go using websockets.
+**go-chat** is a chat-application developed with the help of websockets, server side is implemented in golang and client side implemetation uses jQuery, bootstrap, emojify and jQuery-fileupload
 
 ## Dependencies
 
@@ -12,16 +12,16 @@ go get "golang.org/x/net/websocket"
 ```
 ## Usage
 
-Build the go project and execute. By default, host is **localhost:8000** . Same can be changed by providing host at run-time.
+Build the go project and execute. By default, hostname: **localhost** and port: **8000** . Same can be changed by providing hostname and port at run-time.
 
 ```
   go build  &&
-  ./go-chat -host <hostname:port>
+  ./go-chat -b <hostname> -p <port>
 ```
 ## Getting started
 
-Connect to the server by providing your name after the host and enjoy chatting with your friends..
+Connect to the server by providing your name after the host and start chatting with your friends. You can also share images, videos and lots more.
 
 ```
-<hostname:port>/<your-name>
+<hostname:port>/<your_name>
 ```
