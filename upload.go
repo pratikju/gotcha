@@ -41,3 +41,13 @@ func upload_handler(w http.ResponseWriter, r *http.Request) {
   }
 
 }
+
+func upload_view_Handler(w http.ResponseWriter, r *http.Request){
+    filename := r.URL.Path[1:]
+    file, err := os.Open(filename)
+    if err != nil {
+      panic(err)
+    }
+    defer file.Close()
+    io.Copy(w, file)
+}

@@ -36,10 +36,10 @@ $(document).ready(function(){
                 upload_url = upload_content[1];
                 upload_type  = upload_content[2];
                 if (/image/.test(upload_type)) { //image files
-                    $('#' + div_id).append('<img src="/assets/uploads/{link}" alt="{link}">'
+                    $('#' + div_id).append('<a href="/uploads/{link}" download><img src="/uploads/{link}" alt="{link}"></a>'
                                            .interpolate({link: upload_url}));
                 } else {
-                    $('#' + div_id).append('<a href="/assets/uploads/{link}" target="_blank" download><span class="glyphicon glyphicon-download"></span>{link}</a>'
+                    $('#' + div_id).append('<a href="/uploads/{link}" target="_blank" download><span class="glyphicon glyphicon-download"></span>{link}</a>'
                                            .interpolate({link: upload_url}));
                 }
             } else { //normal message with emojis

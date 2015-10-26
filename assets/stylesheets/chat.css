@@ -3,16 +3,23 @@ img {
     max-height: 100%;
 }
 .select-wrapper {
-  background: url(http://icons.iconarchive.com/icons/hopstarter/rounded-square/256/Button-Upload-icon.png) no-repeat;
+  background: url(http://icons.iconarchive.com/icons/uribaani/realm/128/Arrow-Up-icon.png) no-repeat;
   background-size: cover;
-  display: block;
+  display: inline-block;
   position: relative;
+  overflow-x: hidden;
   width: 33px;
-  height: 26px;
+  height: 33px;
 }
 #fileupload {
+  position: relative;
+  top: 0;
+  margin: 0;
   opacity: 0;
-  filter: alpha(opacity=0);
+  filter: 'alpha(opacity=0)';
+  direction: ltr;
+  /*cursor: pointer;*/
+  cursor: grabbing;
 }
 hr {
   border: 0;
