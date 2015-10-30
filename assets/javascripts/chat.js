@@ -36,7 +36,7 @@ $(document).ready(function(){
                 upload_url = upload_content[1];
                 upload_type  = upload_content[2];
                 if (/image/.test(upload_type)) { //image files
-                    $('#' + div_id).append('<a href="/uploads/{link}" download><img src="/uploads/{link}" alt="{link}"></a>'
+                    $('#' + div_id).append('<a href="/uploads/{link}" title="{link}"><img src="/uploads/{link}" alt="{link}"></a>'
                                            .interpolate({link: upload_url}));
                 } else {
                     $('#' + div_id).append('<a href="/uploads/{link}" target="_blank" download><span class="glyphicon glyphicon-download"></span>{link}</a>'
@@ -61,6 +61,8 @@ $(document).ready(function(){
     perform_file_upload(websocket, jsonObj);
 
     perform_chat_operations(websocket, jsonObj);
+
+    initialize_magnific_popup();
 
     String.prototype.interpolate = function(object) {
         return this.replace(/{([^{}]*)}/g, function(a, b) {
@@ -144,5 +146,31 @@ var perform_chat_operations = function(websocket, jsonObj) {
 
     $('#clear_chat').on('click',function(){
         $('#chat_box').html('');
+    });
+}
+
+var initialize_magnific_popup = function() {
+    $('.msg_container_base').magnificPopup({
+        delegate: 'a',
+        type: 'image',
+        closeOnContentClick: true,
+        closeBtnInside: false,
+        fixedContentPos: true,
+        mainClass: 'mfp-no-margins mfp-with-zoom',
+        image: {
+            verticalFit: true
+        },
+        zoom: {
+            enabled: true,
+            duration: 300
+        },
+        gallery:{
+            enabled:true,
+            preload: [0,2],
+            navigateByImgClick: true,
+            tPrev: 'Previous (Left arrow key)',
+            tNext: 'Next (Right arrow key)',
+            tCounter: '<span class="mfp-counter">%curr% of %total%</span>'
+        }
     });
 }
