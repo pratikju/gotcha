@@ -36,10 +36,10 @@ $(document).ready(function(){
                 upload_url = upload_content[1];
                 upload_type  = upload_content[2];
                 if (/image/.test(upload_type)) { //image files
-                    $('#' + div_id).append('<a href="/uploads/{link}" title="{link}"><img src="/uploads/{link}" alt="{link}"></a>'
+                    $('#' + div_id).append('<div class="image_link"><a href="/uploads/{link}" title="{link}"><img src="/uploads/{link}" alt="{link}"></a></div>'
                                            .interpolate({link: upload_url}));
                 } else {
-                    $('#' + div_id).append('<a href="/uploads/{link}" target="_blank" download><span class="glyphicon glyphicon-download"></span>{link}</a>'
+                    $('#' + div_id).append('<a href="/uploads/{link}" download><span class="glyphicon glyphicon-download"></span>{link}</a>'
                                            .interpolate({link: upload_url}));
                 }
             } else { //normal message with emojis
@@ -151,7 +151,7 @@ var perform_chat_operations = function(websocket, jsonObj) {
 
 var initialize_magnific_popup = function() {
     $('.msg_container_base').magnificPopup({
-        delegate: 'a',
+        delegate: '.image_link > a',
         type: 'image',
         closeOnContentClick: true,
         closeBtnInside: false,

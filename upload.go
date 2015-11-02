@@ -20,8 +20,8 @@ func upload_handler(w http.ResponseWriter, r *http.Request) {
   if err != nil {
     panic(err)
   }
-
   defer file.Close()
+  
   f, err := os.OpenFile("./uploads/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
   if err != nil {
     panic(err)
