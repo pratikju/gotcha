@@ -20,8 +20,4 @@ Build the go project and execute. By default, hostname: **localhost** and port: 
 ```
 ## Getting started
 
-Connect to the server by providing your name after the host and start chatting with your friends. You can also share images, videos and lots more.
-
-```
-<hostname:port>/<your_name>
-```
+Connect to the server and start chatting with your friends. You can also share images, videos and lots more.
