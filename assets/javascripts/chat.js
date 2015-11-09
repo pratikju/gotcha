@@ -73,13 +73,13 @@ $(document).ready(function(){
 
     var get_random_color = function() {
         return 'rgb(' + (Math.floor(Math.random() * 150)) + ',' + (Math.floor(Math.random() * 150)) + ',' + (Math.floor(Math.random() * 150)) + ')';
-    }
+    };
 
     var get_random_divID = function() {
         var min = 0;
         var max = 50000;
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    };
 
     var is_message_a_link = function(message) {
         var regEx = /(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/ ;
@@ -87,14 +87,14 @@ $(document).ready(function(){
             return true;
         }
         return false;
-    }
+    };
 
     var find_suitable_color = function(name, random_color) {
       if (name_color_map[name] === undefined) {
           name_color_map[name] = random_color;
       }
       return name_color_map[name];
-    }
+    };
 
 });
 
@@ -118,7 +118,7 @@ var perform_file_upload = function (websocket, jsonObj) {
             });
         }
     });
-}
+};
 
 var perform_chat_operations = function(websocket, jsonObj) {
     $('#chat_prompt').val('');
@@ -147,7 +147,7 @@ var perform_chat_operations = function(websocket, jsonObj) {
     $('#clear_chat').on('click',function(){
         $('#chat_box').html('');
     });
-}
+};
 
 var initialize_magnific_popup = function() {
     $('.msg_container_base').magnificPopup({
@@ -173,4 +173,4 @@ var initialize_magnific_popup = function() {
             tCounter: '<span class="mfp-counter">%curr% of %total%</span>'
         }
     });
-}
+};
