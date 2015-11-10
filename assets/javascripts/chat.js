@@ -2,7 +2,7 @@ $(document).ready(function(){
     $('.progress').hide();
     var name_color_map = {};
     var jsonObj = JSON.parse($('#data').text());
-    socket_addr = 'ws://'+ jsonObj.context +'/websocket';
+    socket_addr = 'ws://'+ window.location.host +'/websocket';
     var websocket = new WebSocket(socket_addr);
 
     websocket.onopen = function(response) {

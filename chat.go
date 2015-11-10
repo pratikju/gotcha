@@ -20,13 +20,16 @@ type Client struct {
 }
 
 func init(){
-  http.HandleFunc("/home",home_handler)
+  http.HandleFunc("/",root_handler)
   http.HandleFunc("/login",login_handler)
-  http.HandleFunc("/",redirect_handler)
+  http.HandleFunc("/authorize_github", github_authorization_handler)
+  http.HandleFunc("/git_home",git_home_handler)
+  http.HandleFunc("/authorize_google", google_authorization_handler)
+  http.HandleFunc("/google_home",google_home_handler)
   http.HandleFunc("/upload", upload_handler)
+  http.HandleFunc("/uploads/", upload_view_Handler)
   http.Handle("/assets/", http.FileServer(http.Dir(".")))
   http.Handle("/websocket", websocket.Handler(SocketServer))
-  http.HandleFunc("/uploads/", upload_view_Handler)
 }
 
 func SocketServer(ws *websocket.Conn) {
