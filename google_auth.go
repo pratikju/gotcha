@@ -2,28 +2,24 @@ package main
 
 import (
     "golang.org/x/oauth2"
+    "golang.org/x/oauth2/google"
     "net/http"
     "html/template"
     "io/ioutil"
 )
 
 var oauth_google_config = &oauth2.Config {
-        ClientID: "112710392513-2mam2i72bj2lp045lge2fet5il10u48t.apps.googleusercontent.com",
+        ClientID: "YOUR_GOOGLE_CLIENT_ID",
 
-        ClientSecret: "sVpHDvOwUf9am9Gvg5VQDa4i",
+        ClientSecret: "YOUR_GOOGLE_CLIENT_SECRET",
 
-        Endpoint: oauth2.Endpoint{
-    			AuthURL: "https://accounts.google.com/o/oauth2/auth",
-    			TokenURL: "https://accounts.google.com/o/oauth2/token",
-    		},
+        Endpoint: google.Endpoint,
 
-        RedirectURL: "http://localhost:8000/google_home",
+        RedirectURL: "YOUR_GOOLE_REDIRECT_URL",
 
-        //This is the 'scope' of the data that you are asking the user's permission to access. For getting user's info, this is the url that Google has defined.
         Scopes: []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"},
     }
 
-//This is the URL that Google has defined so that an authenticated application may obtain the user's info in json format
 const googleProfileInfoURL = "https://www.googleapis.com/oauth2/v1/userinfo"
 
 func google_authorization_handler(w http.ResponseWriter, r *http.Request) {
