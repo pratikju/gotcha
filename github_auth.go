@@ -2,27 +2,24 @@ package main
 
 import (
     "golang.org/x/oauth2"
+    "golang.org/x/oauth2/github"
     "net/http"
     "html/template"
     "io/ioutil"
 )
 
 var oauth_git_config = &oauth2.Config {
-        ClientID: "29aa81434e9e3fd3a196",
+        ClientID: "YOUR_GIT_CLIENT_ID",
 
-        ClientSecret: "73c6f3edf7b98a5b89875efa1fe2793a79179351",
+        ClientSecret: "YOUR_GIT_CLIENT_SECRET",
 
-        Endpoint: oauth2.Endpoint{
-    			AuthURL: "https://github.com/login/oauth/authorize",
-    			TokenURL: "https://github.com/login/oauth/access_token",
-    		},
+        Endpoint: github.Endpoint,
 
-        RedirectURL: "http://localhost:8000/git_home",
+        RedirectURL: "YOUR_GIT_REDIRECT_URL",
 
         Scopes: []string{},
     }
 
-//This is the URL that Google has defined so that an authenticated application may obtain the user's info in json format
 const githubProfileInfoURL = "https://api.github.com/user"
 
 func github_authorization_handler(w http.ResponseWriter, r *http.Request) {
