@@ -1,11 +1,11 @@
 package main
 
-import(
-  "html/template"
-  "net/http"
+import (
+	"html/template"
+	"net/http"
 )
 
-const login_page = `
+const loginPage = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +28,7 @@ const login_page = `
 </html>
 `
 
-const home_page = `
+const homePage = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,17 +96,18 @@ const home_page = `
 </body>
 </html>
 `
-func root_handler(w http.ResponseWriter, r *http.Request){
-  http.Redirect(w, r, "/login", http.StatusFound)
+
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/login", http.StatusFound)
 }
 
-func login_handler(w http.ResponseWriter, r *http.Request){
-  login_template, error := template.New("webpage").Parse(login_page)
-  if error != nil {
-    panic(error)
-  }
-  err := login_template.Execute(w, nil)
-  if err != nil {
-    http.Error(w, err.Error(), http.StatusInternalServerError)
-  }
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+	loginTemplate, error := template.New("webpage").Parse(loginPage)
+	if error != nil {
+		panic(error)
+	}
+	err := loginTemplate.Execute(w, nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
