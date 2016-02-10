@@ -3,15 +3,17 @@ package main
 import (
 	"flag"
 	"fmt"
-	"golang.org/x/net/websocket"
+	"log"
 	"net/http"
+
+	"golang.org/x/net/websocket"
 )
 
 var (
-	hostname      = flag.String("b", "localhost", "listen on HOST")
-	port          = flag.Int("p", 8000, "use PORT for HTTP")
+	hostname = flag.String("b", "localhost", "listen on HOST")
+	port     = flag.Int("p", 8000, "use PORT for HTTP")
 	// Message is websocket message encoder
-	Message       = websocket.Message
+	Message = websocket.Message
 	// ActiveClients is a map of websocket clients
 	ActiveClients = make(map[Client]int) // map containing clients
 )
@@ -33,6 +35,7 @@ func init() {
 	http.HandleFunc("/uploads/", uploadViewHandler)
 	http.Handle("/assets/", http.FileServer(http.Dir(".")))
 	http.Handle("/websocket", websocket.Handler(socketServer))
+	http.HandleFunc("/user", userHandler)
 }
 
 func socketServer(ws *websocket.Conn) {
@@ -41,19 +44,19 @@ func socketServer(ws *websocket.Conn) {
 	// cleanup on server side
 	defer func() {
 		if err := ws.Close(); err != nil {
-			fmt.Println("Websocket could not be closed", err.Error())
+			log.Println("Websocket could not be closed", err.Error())
 		}
 	}()
 
 	clientIP := ws.Request().RemoteAddr
 	newClient := Client{ws, clientIP}
 	ActiveClients[newClient] = 0
-	fmt.Println("Number of clients connected ...", len(ActiveClients))
+	log.Println("Number of clients connected ...", len(ActiveClients))
 
 	for {
 		if err := Message.Receive(ws, &clientMessage); err != nil {
 			delete(ActiveClients, newClient)
-			fmt.Println("Number of clients still connected ...", len(ActiveClients))
+			log.Println("Number of clients still connected ...", len(ActiveClients))
 			return
 		}
 		broadcastMessage(clientMessage)
@@ -63,7 +66,7 @@ func socketServer(ws *websocket.Conn) {
 func broadcastMessage(clientMessage string) {
 	for client := range ActiveClients {
 		if err := Message.Send(client.websocket, clientMessage); err != nil {
-			fmt.Println("Could not send message to ", client.clientIP, err.Error())
+			log.Println("Could not send message to ", client.clientIP, err.Error())
 		}
 	}
 }
@@ -72,11 +75,12 @@ func httpListener(hostname string, port int) {
 	host := fmt.Sprintf("%s:%d", hostname, port)
 
 	if err := http.ListenAndServe(host, nil); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 
 func main() {
 	flag.Parse()
+	InitSession()
 	httpListener(*hostname, *port)
 }
