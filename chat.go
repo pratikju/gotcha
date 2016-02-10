@@ -76,5 +76,5 @@ func broadcastMessage(clientMessage string) {
 func main() {
 	flag.Parse()
 	InitSession()
-	server.HTTPListener(*hostname, *port)
+	server.ListenHTTP(*hostname, *port)
 }
