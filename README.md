@@ -21,6 +21,3 @@ Build the go project and execute. By default, hostname: **localhost** and port: 
 ## Getting started
 
 Connect to the server and start chatting with your friends. You can also share images, videos and lots more.
-
-#**Session Work In Progress**
-  Functionalities may not work as desired
