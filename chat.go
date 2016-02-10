@@ -2,16 +2,17 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/pratikju/go-chat/server"
 
 	"golang.org/x/net/websocket"
 )
 
 var (
-	hostname = flag.String("b", "localhost", "listen on HOST")
-	port     = flag.Int("p", 8000, "use PORT for HTTP")
+	hostname = flag.String("b", "0.0.0.0", "hostname to be used")
+	port     = flag.Int("p", 8000, "port on which server will listen")
 	// Message is websocket message encoder
 	Message = websocket.Message
 	// ActiveClients is a map of websocket clients
@@ -72,16 +73,8 @@ func broadcastMessage(clientMessage string) {
 	}
 }
 
-func httpListener(hostname string, port int) {
-	host := fmt.Sprintf("%s:%d", hostname, port)
-
-	if err := http.ListenAndServe(host, nil); err != nil {
-		log.Fatal(err)
-	}
-}
-
 func main() {
 	flag.Parse()
 	InitSession()
-	httpListener(*hostname, *port)
+	server.HTTPListener(*hostname, *port)
 }
