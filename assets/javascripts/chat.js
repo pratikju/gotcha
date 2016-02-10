@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('.progress').hide();
     var name_color_map = {};
-    var jsonObj = JSON.parse('{"name":"pratik"}');
+    var jsonObj = JSON.parse($('#data').text());
     socket_addr = 'ws://'+ window.location.host +'/websocket';
     var websocket = new WebSocket(socket_addr);
 
@@ -121,6 +121,7 @@ var perform_file_upload = function (websocket, jsonObj) {
 };
 
 var perform_chat_operations = function(websocket, jsonObj) {
+    $("#avatar").attr("src", jsonObj.avatar_url);
     $('#chat_prompt').val('');
     $('#send').on('click',function(){
         if ($('#chat_prompt').val().trim() === "") {

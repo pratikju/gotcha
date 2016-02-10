@@ -6,12 +6,10 @@ import (
 )
 
 func userHandler(w http.ResponseWriter, r *http.Request) {
-	session, _ := GlobalSessions.SessionStart(w, r)
+	session, _ := GoChatManager.SessionStart(w, r)
 	defer session.SessionRelease(w)
 
-	// Getting the profile from the session
 	profile := session.Get("profile")
-
 	homeTemplate, err := template.New("webpage").Parse(homePage)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

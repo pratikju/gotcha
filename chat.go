@@ -27,6 +27,7 @@ type Client struct {
 func init() {
 	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/login", loginHandler)
+	http.HandleFunc("/logout", logoutHandler)
 	http.HandleFunc("/authorize_github", githubAuthorizationHandler)
 	http.HandleFunc("/git_home", gitHomeHandler)
 	http.HandleFunc("/authorize_google", googleAuthorizationHandler)

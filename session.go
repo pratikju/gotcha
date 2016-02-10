@@ -5,10 +5,10 @@ import (
 )
 
 var (
-	GlobalSessions *session.Manager
+	GoChatManager *session.Manager
 )
 
 func InitSession() {
-	GlobalSessions, _ = session.NewManager("memory", `{"cookieName":"gosessionid","gclifetime":3600}`)
-	go GlobalSessions.GC()
+	GoChatManager, _ = session.NewManager("memory", `{"cookieName":"gosessionid","gclifetime":3600}`)
+	go GoChatManager.GC()
 }

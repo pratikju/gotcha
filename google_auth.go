@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -51,18 +50,12 @@ func googleHomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var profile map[string]interface{}
-	if err := json.Unmarshal(rawBody, &profile); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	session, _ := GlobalSessions.SessionStart(w, r)
+	session, _ := GoChatManager.SessionStart(w, r)
 	defer session.SessionRelease(w)
 
 	session.Set("id_token", token.Extra("id_token"))
 	session.Set("access_token", token.AccessToken)
-	session.Set("profile", profile)
+	session.Set("profile", string(rawBody))
 
 	http.Redirect(w, r, "/user", http.StatusMovedPermanently)
 

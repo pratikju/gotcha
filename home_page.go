@@ -49,6 +49,30 @@ const homePage = `
 </head>
 <body>
   <div id="data" style="display: none;">{{.}}</div>
+	<nav class="navbar navbar-inverse navbar-fixed-top" id="navbar">
+	   <div class="container-fluid">
+	      <div class="navbar-header">
+					<a href="#" class="navbar-brand"><img src="/assets/images/app/logo.png" alt="GoChat logo" height="25" width="25"></a>
+				</div>
+
+         <div class="collapse navbar-collapse navbar-right">
+            <ul class="nav navbar-nav navbar-user navbar-right">
+               <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                     <img id="avatar" alt="profile picture" height="25" width="25" src="">
+                     <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+										 <li><a href="/logout"><span class="glyphicon glyphicon-off">
+										 </span> Sign out</a></li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
+
+	   </div>
+	</nav>
+	<hr>
   <div class="container-fluid">
     <div class="panel panel-primary">
       <div class="panel-heading">
@@ -102,12 +126,18 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	loginTemplate, error := template.New("webpage").Parse(loginPage)
-	if error != nil {
-		panic(error)
-	}
-	err := loginTemplate.Execute(w, nil)
+	loginTemplate, err := template.New("webpage").Parse(loginPage)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+
+	err = loginTemplate.Execute(w, nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func logoutHandler(w http.ResponseWriter, r *http.Request) {
+	GoChatManager.SessionDestroy(w, r)
+	http.Redirect(w, r, "/login", http.StatusFound)
 }
