@@ -121,7 +121,14 @@ var perform_file_upload = function (websocket, jsonObj) {
 };
 
 var perform_chat_operations = function(websocket, jsonObj) {
-    $("#avatar").attr("src", jsonObj.avatar_url);
+
+    var avatar_src;
+    if (jsonObj.avatar_url) {
+        avatar_src = jsonObj.avatar_url;
+    } else {
+        avatar_src = jsonObj.picture;
+    }
+    $("#avatar").attr("src", avatar_src);
     $('#chat_prompt').val('');
     $('#send').on('click',function(){
         if ($('#chat_prompt').val().trim() === "") {
