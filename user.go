@@ -3,6 +3,8 @@ package main
 import (
 	"net/http"
 	"text/template"
+
+	"github.com/pratikju/go-chat/templates"
 )
 
 func userHandler(w http.ResponseWriter, r *http.Request) {
@@ -10,7 +12,7 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 	defer session.SessionRelease(w)
 
 	profile := session.Get("profile")
-	homeTemplate, err := template.New("webpage").Parse(homePage)
+	homeTemplate, err := template.New("webpage").Parse(templates.HomePage)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

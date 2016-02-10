@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"log"
-	"net/http"
 
 	"github.com/pratikju/go-chat/server"
 
@@ -26,18 +25,7 @@ type Client struct {
 }
 
 func init() {
-	http.HandleFunc("/", rootHandler)
-	http.HandleFunc("/login", loginHandler)
-	http.HandleFunc("/logout", logoutHandler)
-	http.HandleFunc("/authorize_github", githubAuthorizationHandler)
-	http.HandleFunc("/git_home", gitHomeHandler)
-	http.HandleFunc("/authorize_google", googleAuthorizationHandler)
-	http.HandleFunc("/google_home", googleHomeHandler)
-	http.HandleFunc("/upload", uploadHandler)
-	http.HandleFunc("/uploads/", uploadViewHandler)
-	http.Handle("/assets/", http.FileServer(http.Dir(".")))
-	http.Handle("/websocket", websocket.Handler(socketServer))
-	http.HandleFunc("/user", userHandler)
+
 }
 
 func socketServer(ws *websocket.Conn) {
@@ -76,5 +64,7 @@ func broadcastMessage(clientMessage string) {
 func main() {
 	flag.Parse()
 	InitSession()
-	server.ListenHTTP(*hostname, *port)
+	server.AttachHandler()
+	server.ListenHTTP(*hostname, *port, nil)
+
 }
