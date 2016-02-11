@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/pratikju/go-chat/session"
+
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
@@ -50,12 +52,12 @@ func googleHomeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	session, _ := GoChatManager.SessionStart(w, r)
-	defer session.SessionRelease(w)
+	s, _ := session.Manager.SessionStart(w, r)
+	defer s.SessionRelease(w)
 
-	session.Set("id_token", token.Extra("id_token"))
-	session.Set("access_token", token.AccessToken)
-	session.Set("profile", string(rawBody))
+	s.Set("id_token", token.Extra("id_token"))
+	s.Set("access_token", token.AccessToken)
+	s.Set("profile", string(rawBody))
 
 	http.Redirect(w, r, "/user", http.StatusMovedPermanently)
 

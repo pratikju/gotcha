@@ -4,14 +4,15 @@ import (
 	"net/http"
 	"text/template"
 
+	"github.com/pratikju/go-chat/session"
 	"github.com/pratikju/go-chat/templates"
 )
 
 func userHandler(w http.ResponseWriter, r *http.Request) {
-	session, _ := GoChatManager.SessionStart(w, r)
-	defer session.SessionRelease(w)
+	s, _ := session.Manager.SessionStart(w, r)
+	defer s.SessionRelease(w)
 
-	profile := session.Get("profile")
+	profile := s.Get("profile")
 
 	//TODO remove below code, use RenderTemplate from templates package
 	homeTemplate, err := template.New("webpage").Parse(templates.HomePage)

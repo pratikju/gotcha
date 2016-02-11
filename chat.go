@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/pratikju/go-chat/server"
+	"github.com/pratikju/go-chat/session"
 
 	"golang.org/x/net/websocket"
 )
@@ -22,10 +23,6 @@ var (
 type Client struct {
 	websocket *websocket.Conn
 	clientIP  string
-}
-
-func init() {
-
 }
 
 func socketServer(ws *websocket.Conn) {
@@ -63,8 +60,7 @@ func broadcastMessage(clientMessage string) {
 
 func main() {
 	flag.Parse()
-	InitSession()
+	session.Init()
 	server.AttachHandler()
 	server.ListenHTTP(*hostname, *port, nil)
-
 }
