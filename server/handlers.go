@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/pratikju/go-chat/session"
 	"github.com/pratikju/go-chat/templates"
 )
 
@@ -26,18 +27,32 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	templates.RenderTemplate(w, templates.LoginPage, nil)
 }
 
-func uploadHandler(w http.ResponseWriter, r *http.Request) {
+func logoutHandler(w http.ResponseWriter, r *http.Request) {
+	session.Manager.SessionDestroy(w, r)
+	http.Redirect(w, r, "/login", http.StatusFound)
+}
 
+func userHandler(w http.ResponseWriter, r *http.Request) {
+	s, _ := session.Manager.SessionStart(w, r)
+	defer s.SessionRelease(w)
+
+	profile := s.Get("profile")
+	templates.RenderTemplate(w, templates.HomePage, profile)
+}
+
+func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(32 << 20)
 	file, handler, err := r.FormFile("files")
 	if err != nil {
-		panic(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	defer file.Close()
 
 	f, err := os.OpenFile("./uploads/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
-		panic(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	defer f.Close()
 	io.Copy(f, file)
@@ -50,7 +65,8 @@ func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	if err := json.NewEncoder(w).Encode(files); err != nil {
-		panic(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 }
@@ -59,7 +75,8 @@ func uploadViewHandler(w http.ResponseWriter, r *http.Request) {
 	filename := r.URL.Path[1:]
 	file, err := os.Open(filename)
 	if err != nil {
-		panic(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 	defer file.Close()
 	io.Copy(w, file)

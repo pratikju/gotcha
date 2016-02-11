@@ -1,31 +1,24 @@
-package main
+package server
 
 import (
-	"flag"
 	"log"
-
-	"github.com/pratikju/go-chat/server"
-	"github.com/pratikju/go-chat/session"
 
 	"golang.org/x/net/websocket"
 )
 
+type Client struct {
+	websocket *websocket.Conn
+	clientIP  string
+}
+
 var (
-	hostname = flag.String("b", "0.0.0.0", "hostname to be used")
-	port     = flag.Int("p", 8000, "port on which server will listen")
 	// Message is websocket message encoder
 	Message = websocket.Message
 	// ActiveClients is a map of websocket clients
 	ActiveClients = make(map[Client]int) // map containing clients
 )
 
-// Client is a websocket client
-type Client struct {
-	websocket *websocket.Conn
-	clientIP  string
-}
-
-func socketServer(ws *websocket.Conn) {
+func socketHandler(ws *websocket.Conn) {
 	var clientMessage string
 
 	// cleanup on server side
@@ -56,11 +49,4 @@ func broadcastMessage(clientMessage string) {
 			log.Println("Could not send message to ", client.clientIP, err.Error())
 		}
 	}
-}
-
-func main() {
-	flag.Parse()
-	session.Init()
-	server.AttachHandler()
-	server.ListenHTTP(*hostname, *port, nil)
 }
