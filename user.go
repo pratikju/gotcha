@@ -12,6 +12,8 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 	defer session.SessionRelease(w)
 
 	profile := session.Get("profile")
+
+	//TODO remove below code, use RenderTemplate from templates package
 	homeTemplate, err := template.New("webpage").Parse(templates.HomePage)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
