@@ -24,7 +24,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	templates.RenderTemplate(w, templates.LoginPage, nil)
+	templates.Render(w, templates.LoginPage, nil)
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +37,7 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 	defer s.SessionRelease(w)
 
 	profile := s.Get("profile")
-	templates.RenderTemplate(w, templates.HomePage, profile)
+	templates.Render(w, templates.HomePage, profile)
 }
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {

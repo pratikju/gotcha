@@ -5,8 +5,8 @@ import (
 	"text/template"
 )
 
-// RenderTemplate renders the template along with data
-func RenderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
+// Render renders the template along with data
+func Render(w http.ResponseWriter, tmpl string, data interface{}) {
 	t, err := template.New("webpage").Parse(tmpl)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
