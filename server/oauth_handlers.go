@@ -11,6 +11,7 @@ import (
 	"github.com/pratikju/go-chat/session"
 )
 
+//TODO check for CSRF Attack, pass the state to AuthCodeURL method
 func googleAuthorizationHandler(w http.ResponseWriter, r *http.Request) {
 	url := google.AuthConfig.AuthCodeURL("")
 	http.Redirect(w, r, url, http.StatusFound)
