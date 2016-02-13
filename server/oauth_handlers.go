@@ -44,7 +44,11 @@ func handleCallback(w http.ResponseWriter, r *http.Request, config *oauth2.Confi
 	}
 
 	client := config.Client(oauth2.NoContext, token)
-	response, _ := client.Get(profilesURL)
+	response, err := client.Get(profilesURL)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	defer response.Body.Close()
 	rawBody, err := ioutil.ReadAll(response.Body)
