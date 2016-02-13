@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/pratikju/go-chat/middleware"
+
 	"golang.org/x/net/websocket"
 )
 
@@ -30,5 +32,5 @@ func AttachHandlers() {
 	http.HandleFunc("/uploads/", uploadViewHandler)
 	http.Handle("/assets/", http.FileServer(http.Dir(".")))
 	http.Handle("/websocket", websocket.Handler(socketHandler))
-	http.HandleFunc("/user", userHandler)
+	http.HandleFunc("/user", middleware.IsAuthenticated(userHandler))
 }
