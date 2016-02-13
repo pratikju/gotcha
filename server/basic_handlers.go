@@ -32,7 +32,6 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/login", http.StatusFound)
 }
 
-//TODO handle unauthenticated users
 func userHandler(w http.ResponseWriter, r *http.Request) {
 	s, _ := session.Manager.SessionStart(w, r)
 	defer s.SessionRelease(w)
