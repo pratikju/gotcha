@@ -58,3 +58,6 @@ func <provider>CallbackHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
+## License
+
+MIT, see the [LICENSE](https://raw.githubusercontent.com/pratikju/go-chat/master/LICENSE.md) file.
