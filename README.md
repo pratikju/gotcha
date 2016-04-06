@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pratikju/go-chat.svg?branch=master)](https://travis-ci.org/pratikju/go-chat)
+
 # go-chat
 
 **go-chat** is a chat-application developed with the help of websockets, server side is implemented in golang and client side implemetation uses jQuery, bootstrap, emojify and jQuery-fileupload
