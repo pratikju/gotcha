@@ -13,7 +13,7 @@ Assuming you have installed a recent version of
 go get -u github.com/pratikju/go-chat
 ```
 
-This will download Servidor to `$GOPATH/src/github.com/pratikju/go-chat`. From
+This will download go-chat to `$GOPATH/src/github.com/pratikju/go-chat`. From
   this directory run `go build` to create the `go-chat` binary.
 
 ## Usage
@@ -40,12 +40,12 @@ To add more providers,
  - Register the application at provider's developer console.
  - Set Client ID, Client secret, redirect url, endpoint, scope and profilesURL in config file in that package.
  - Then add the routes and corresponding handlers.
- 
+
  ```
  	http.HandleFunc("/authorize_<provider>", <provider>AuthorizationHandler)
 	http.HandleFunc("/<provider>_home", <provider>CallbackHandler)
  ```
- 
+
  ```
  func <provider>AuthorizationHandler(w http.ResponseWriter, r *http.Request) {
 	url := <provider>.AuthConfig.AuthCodeURL("")
