@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pratikju/go-chat.svg?branch=master)](https://travis-ci.org/pratikju/go-chat)
+[![Build Status](https://travis-ci.org/pratikju/gotcha.svg?branch=master)](https://travis-ci.org/pratikju/gotcha)
 
 # gotcha
 
