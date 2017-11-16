@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/pratikju/go-chat.svg?branch=master)](https://travis-ci.org/pratikju/go-chat)
+[![Build Status](https://travis-ci.org/pratikju/gotcha.svg?branch=master)](https://travis-ci.org/pratikju/gotcha)
 
-# go-chat
+# gotcha
 
-**go-chat** is a chat-application developed with the help of websockets, server side is implemented in golang and client side implemetation uses jQuery, bootstrap, emojify and jQuery-fileupload
+**gotcha** is a chat-application developed with the help of websockets, server side is implemented in golang and client side implemetation uses jQuery, bootstrap, emojify and jQuery-fileupload
 
 ## Installation
 
@@ -10,19 +10,19 @@ Assuming you have installed a recent version of
 [Go](https://golang.org/doc/install), you can simply run
 
 ```
-go get -u github.com/pratikju/go-chat
+go get -u github.com/pratikju/gotcha
 ```
 
-This will download go-chat to `$GOPATH/src/github.com/pratikju/go-chat`. From
-  this directory run `go build` to create the `go-chat` binary.
+This will download gotcha to `$GOPATH/src/github.com/pratikju/gotcha`. From
+  this directory run `go build` to create the `gotcha` binary.
 
 ## Usage
 
-Start the server by executing `go-chat` binary. By default, server will listen to http://0.0.0.0:8000 for incoming requests.
+Start the server by executing `gotcha` binary. By default, server will listen to http://0.0.0.0:8000 for incoming requests.
 
 ```
-go-chat -h
-Usage of go-chat:
+gotcha -h
+Usage of gotcha:
   -b string
     	listen on HOST (default "0.0.0.0")
   -p int
@@ -62,4 +62,4 @@ func <provider>CallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 ## License
 
-MIT, see the [LICENSE](https://raw.githubusercontent.com/pratikju/go-chat/master/LICENSE.md) file.
+MIT, see the [LICENSE](https://raw.githubusercontent.com/pratikju/gotcha/master/LICENSE.md) file.
