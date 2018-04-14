@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/pratikju/gotcha.svg?branch=master)](https://travis-ci.org/pratikju/gotcha)
-
 # gotcha
+
+[![Build Status](https://travis-ci.org/pratikju/gotcha.svg?branch=master)](https://travis-ci.org/pratikju/gotcha)
 
 **gotcha** is a chat-application developed with the help of websockets, server side is implemented in golang and client side implemetation uses jQuery, bootstrap, emojify and jQuery-fileupload
 
